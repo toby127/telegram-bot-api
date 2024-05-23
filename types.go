@@ -1039,6 +1039,8 @@ type Dice struct {
 type PollOption struct {
 	// Text is the option text, 1-100 characters
 	Text string `json:"text"`
+	// TextEntities is the Optional. Special entities that appear in the option text. Currently, only custom emoji entities are allowed in poll option texts
+	TextEntities []MessageEntity `json:"text_entities"`
 	// VoterCount is the number of users that voted for this option
 	VoterCount int `json:"voter_count"`
 }
@@ -1060,6 +1062,8 @@ type Poll struct {
 	ID string `json:"id"`
 	// Question is the poll question, 1-255 characters
 	Question string `json:"question"`
+	// QuestionEntities Optional, Special entities that appear in the question. Currently, only custom emoji entities are allowed in poll questions
+	QuestionEntities string `json:"question_entities"`
 	// Options is the list of poll options
 	Options []PollOption `json:"options"`
 	// TotalVoterCount is the total numbers of users who voted in the poll

@@ -851,6 +851,8 @@ func (config ContactConfig) method() string {
 type SendPollConfig struct {
 	BaseChat
 	Question              string
+	QuestionPareMode      string
+	QuestionEntities      []MessageEntity
 	Options               []string
 	IsAnonymous           bool
 	Type                  string
@@ -871,7 +873,8 @@ func (config SendPollConfig) params() (Params, error) {
 	}
 
 	params["question"] = config.Question
-	if err = params.AddInterface("options", config.Options); err != nil {
+	params.AddNonEmpty("question_parse_mode", config.QuestionPareMode)
+	if err = params.AddInterface("question_entities", config.QuestionEntities); err != nil {
 		return params, err
 	}
 	params["is_anonymous"] = strconv.FormatBool(config.IsAnonymous)
@@ -1164,6 +1167,7 @@ type WebhookConfig struct {
 	MaxConnections     int
 	AllowedUpdates     []string
 	DropPendingUpdates bool
+	SecretToken        string
 }
 
 func (config WebhookConfig) method() string {
@@ -1181,6 +1185,7 @@ func (config WebhookConfig) params() (Params, error) {
 	params.AddNonZero("max_connections", config.MaxConnections)
 	err := params.AddInterface("allowed_updates", config.AllowedUpdates)
 	params.AddBool("drop_pending_updates", config.DropPendingUpdates)
+	params.AddNonEmpty("secret_token", config.SecretToken)
 
 	return params, err
 }
