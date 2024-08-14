@@ -161,6 +161,18 @@ func (u *Update) SentFrom() *User {
 		return u.Message.From
 	case u.EditedMessage != nil:
 		return u.EditedMessage.From
+	case u.ChannelPost != nil:
+		return u.ChannelPost.From
+	case u.EditedChannelPost != nil:
+		return u.EditedChannelPost.From
+	case u.BusinessConnection != nil:
+		return u.BusinessConnection.User
+	case u.BusinessMessage != nil:
+		return u.BusinessMessage.From
+	case u.EditedBusinessMessage != nil:
+		return u.EditedBusinessMessage.From
+	case u.MessageReaction != nil:
+		return u.MessageReaction.User
 	case u.InlineQuery != nil:
 		return u.InlineQuery.From
 	case u.ChosenInlineResult != nil:
@@ -171,6 +183,12 @@ func (u *Update) SentFrom() *User {
 		return u.ShippingQuery.From
 	case u.PreCheckoutQuery != nil:
 		return u.PreCheckoutQuery.From
+	case u.PollAnswer != nil:
+		return u.PollAnswer.User
+	case u.ChatMember != nil:
+		return u.ChatMember.From
+	case u.ChatJoinRequest != nil:
+		return u.ChatJoinRequest.From
 	default:
 		return nil
 	}
@@ -1214,7 +1232,7 @@ type PollAnswer struct {
 	// PollID is the unique poll identifier
 	PollID string `json:"poll_id"`
 	// User who changed the answer to the poll
-	User User `json:"user"`
+	User *User `json:"user,omitempty"`
 	// OptionIDs is the 0-based identifiers of poll options chosen by the user.
 	// May be empty if user retracted vote.
 	OptionIDs []int `json:"option_ids"`
