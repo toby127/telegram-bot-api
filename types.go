@@ -195,18 +195,28 @@ func (u *Update) FromChat() *Chat {
 		return u.ChannelPost.Chat
 	case u.EditedChannelPost != nil:
 		return u.EditedChannelPost.Chat
-	//case u.BusinessMessage != nil:
-	//	return u.BusinessMessage.Chat
-	//case u.EditedBusinessMessage != nil:
-	//	return u.EditedBusinessMessage.Chat
-	//case u.DeletedBusinessMessages != nil:
-	//	return u.DeletedBusinessMessages.Chat
-	//case u.MessageReaction != nil:
-	//	return u.MessageReaction.Chat
-	//case u.MessageReactionCount != nil:
-	//	return u.MessageReactionCount.Chat
+	case u.BusinessMessage != nil:
+		return u.BusinessMessage.Chat
+	case u.EditedBusinessMessage != nil:
+		return u.EditedBusinessMessage.Chat
+	case u.DeletedBusinessMessages != nil:
+		return u.DeletedBusinessMessages.Chat
+	case u.MessageReaction != nil:
+		return u.MessageReaction.Chat
+	case u.MessageReactionCount != nil:
+		return u.MessageReactionCount.Chat
 	case u.CallbackQuery != nil:
 		return u.CallbackQuery.Message.Chat
+	case u.MyChatMember != nil:
+		return u.MyChatMember.Chat
+	case u.ChatMember != nil:
+		return u.ChatMember.Chat
+	case u.ChatJoinRequest != nil:
+		return u.ChatJoinRequest.Chat
+	case u.ChatBoost != nil:
+		return u.ChatBoost.Chat
+	case u.RemovedChatBoost != nil:
+		return u.RemovedChatBoost.Chat
 	default:
 		return nil
 	}
@@ -1886,15 +1896,15 @@ func (chat ChatMember) WasKicked() bool { return chat.Status == "kicked" }
 // ChatMemberUpdated represents changes in the status of a chat member.
 type ChatMemberUpdated struct {
 	// Chat the user belongs to.
-	Chat Chat `json:"chat"`
+	Chat *Chat `json:"chat,omitempty"`
 	// From is the performer of the action, which resulted in the change.
-	From User `json:"from"`
+	From *User `json:"from,omitempty"`
 	// Date the change was done in Unix time.
 	Date int `json:"date"`
 	// Previous information about the chat member.
-	OldChatMember ChatMember `json:"old_chat_member"`
+	OldChatMember *ChatMember `json:"old_chat_member,omitempty"`
 	// New information about the chat member.
-	NewChatMember ChatMember `json:"new_chat_member"`
+	NewChatMember *ChatMember `json:"new_chat_member,omitempty"`
 	// InviteLink is the link which was used by the user to join the chat;
 	// for joining by invite link events only.
 	//
@@ -1905,9 +1915,9 @@ type ChatMemberUpdated struct {
 // ChatJoinRequest represents a join request sent to a chat.
 type ChatJoinRequest struct {
 	// Chat to which the request was sent.
-	Chat Chat `json:"chat"`
+	Chat *Chat `json:"chat,omitempty"`
 	// User that sent the join request.
-	From User `json:"from"`
+	From *User `json:"from,omitempty"`
 	// Date the request was sent in Unix time.
 	Date int `json:"date"`
 	// Bio of the user.
